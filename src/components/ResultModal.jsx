@@ -1,4 +1,4 @@
-import {forwardRef} from 'react';
+import {forwardRef, useImperativeHandle, useRef} from 'react';
 
 // modal is just an on-screen bit of dialog
 
@@ -8,11 +8,23 @@ import {forwardRef} from 'react';
 
 // this will be the ref prop we set on our component (TimerChallenge)
 const ResultModal = forwardRef(function ResultModal({ result, targetTime }, ref) {
+  const dialog = useRef();
+
+  // define properties and methods that should be available outside components
+  // usually not necessary as you'll use props
+  // first arg is our ref, second is the function to be executed
+  useImperativeHandle(ref, () => {
+    return {
+      open() {
+        dialog.current.showModal();
+      }
+    }
+  });
 
   // dialog prop is by defuault invisible, so we can give it className 'open'...
   // or call the method on dialog to show when wanted in TimerChallenge component (dialog.current.showModal())
   return (
-    <dialog ref={ref} className="result-modal">
+    <dialog ref={dialog} className="result-modal">
       <h2>You {result}</h2>
       <p>
         The target time was <strong>{targetTime}</strong> seconds.

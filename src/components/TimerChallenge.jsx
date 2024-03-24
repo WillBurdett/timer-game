@@ -15,7 +15,7 @@ export default function TimerChallenge({ title, targetTime }) {
     timer.current = setTimeout(() => {
       // executed to specified milliseconds
       setTimerExpired(true);
-      dialog.current.showModal()
+      dialog.current.open()
     }, targetTime * 1000);
 
     // executes immediately (does not have to wait for timer)
